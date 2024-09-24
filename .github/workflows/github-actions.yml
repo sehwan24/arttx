@@ -92,7 +92,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-            sudo docker run -d -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/arttx
+            sudo docker run -d -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/arttx
             sudo docker image prune -f
 
