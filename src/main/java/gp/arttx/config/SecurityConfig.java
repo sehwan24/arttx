@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
@@ -26,6 +27,22 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration config = new CorsConfiguration();
+                        config.addAllowedOrigin("http://localhost:3000");
+                        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
+                        config.addAllowedOrigin("http://127.0.0.1:3000");
+                        config.addAllowedMethod("GET");
+                        config.addAllowedMethod("POST");
+                        config.addAllowedMethod("PUT");
+                        config.addAllowedMethod("DELETE");
+                        config.addAllowedHeader("*");
+                        config.setAllowCredentials(true);
+                        return config;
+                    });
+                })
 
 
                 // 세션 사용하지 않으므로 STATELESS로 설정
