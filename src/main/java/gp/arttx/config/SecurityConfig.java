@@ -41,7 +41,7 @@ public class SecurityConfig {
                         config.addAllowedMethod("PUT");
                         config.addAllowedMethod("DELETE");
                         config.addAllowedMethod("OPTIONS");
-                        config.addAllowedHeader("*");
+                        config.addAllowedHeader(CorsConfiguration.ALL);
                         config.setAllowCredentials(true);
                         return config;
                     });
