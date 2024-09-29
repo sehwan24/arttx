@@ -5,58 +5,59 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .formLogin(AbstractHttpConfigurer::disable)// FormLogin 사용 X
-                .httpBasic(AbstractHttpConfigurer::disable)// httpBasic 사용 X
-                .csrf(AbstractHttpConfigurer::disable) // csrf 보안 사용 X
-                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .cors(cors -> {
-                    cors.configurationSource(request -> {
-                        CorsConfiguration config = new CorsConfiguration();
-                        config.addAllowedOrigin("http://localhost:3000");
-                        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
-                        config.addAllowedOrigin("http://127.0.0.1:3000");
-                        config.addAllowedOrigin("https://artpings.com");
-                        config.addAllowedOrigin("https://www.artpings.com");
-                        config.addAllowedMethod("GET");
-                        config.addAllowedMethod("POST");
-                        config.addAllowedMethod("PUT");
-                        config.addAllowedMethod("DELETE");
-                        config.addAllowedMethod("OPTIONS");
-                        config.addAllowedHeader(CorsConfiguration.ALL);
-                        config.setAllowCredentials(true);
-                        return config;
-                    });
-                })
-
-
-                // 세션 사용하지 않으므로 STATELESS로 설정
-
-
-                //== URL별 권한 관리 옵션 ==//
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()); // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
-
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // CORS 설정
+                .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 비활성화
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll());  // 모든 요청 허용
 
         return http.build();
     }
 
+    // CORS 설정 메서드
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
+        config.addAllowedOrigin("http://127.0.0.1:3000");
+        config.addAllowedOrigin("https://artpings.com");
+        config.addAllowedOrigin("https://www.artpings.com");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
+        config.addAllowedOrigin("http://127.0.0.1:3000");
+        config.addAllowedOrigin("https://artpings.com");
+        config.addAllowedOrigin("https://www.artpings.com");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }
