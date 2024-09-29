@@ -23,8 +23,6 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)// FormLogin 사용 X
                 .httpBasic(AbstractHttpConfigurer::disable)// httpBasic 사용 X
                 .csrf(AbstractHttpConfigurer::disable) // csrf 보안 사용 X
-                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
@@ -44,9 +42,6 @@ public class SecurityConfig {
                         return config;
                     });
                 })
-
-
-                // 세션 사용하지 않으므로 STATELESS로 설정
 
 
                 //== URL별 권한 관리 옵션 ==//
