@@ -34,11 +34,13 @@ public class SecurityConfig {
                         config.addAllowedOrigin("http://127.0.0.1:3000");
                         config.addAllowedOrigin("https://artpings.com");
                         config.addAllowedOrigin("https://www.artpings.com");
+                        config.addAllowedOrigin("arttx-fe.vercel.app");
                         config.addAllowedMethod("GET");
                         config.addAllowedMethod("POST");
                         config.addAllowedMethod("PUT");
                         config.addAllowedMethod("DELETE");
                         config.addAllowedHeader("*");
+                        config.setAllowCredentials(true);
                         return config;
                     });
                 })
