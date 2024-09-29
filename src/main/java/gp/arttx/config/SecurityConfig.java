@@ -34,6 +34,7 @@ public class SecurityConfig {
                         config.addAllowedOrigin("http://localhost:3000");
                         config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
                         config.addAllowedOrigin("http://127.0.0.1:3000");
+                        config.addAllowedOrigin("https://artpings.com");
                         config.addAllowedMethod("GET");
                         config.addAllowedMethod("POST");
                         config.addAllowedMethod("PUT");
