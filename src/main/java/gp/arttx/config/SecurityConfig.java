@@ -11,11 +11,27 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("https://www.artpings.com");  // 허용할 도메인 추가
+        config.addAllowedMethod("*");  // 모든 HTTP 메서드 허용 (GET, POST, PUT 등)
+        config.addAllowedHeader("*");  // 모든 헤더 허용
+        config.setAllowCredentials(true);  // 자격 증명 허용 (쿠키, 인증 정보 등)
+
+        source.registerCorsConfiguration("/api/**", config);  // /api/** 경로에 CORS 설정 적용
+        return new CorsFilter(source);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
@@ -26,24 +42,6 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .cors(cors -> {
-                    cors.configurationSource(request -> {
-                        CorsConfiguration config = new CorsConfiguration();
-                        config.addAllowedOrigin("http://localhost:3000");
-                        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
-                        config.addAllowedOrigin("http://127.0.0.1:3000");
-                        config.addAllowedOrigin("https://artpings.com");
-                        config.addAllowedOrigin("https://www.artpings.com");
-                        config.addAllowedOrigin("arttx-fe.vercel.app");
-                        config.addAllowedMethod("GET");
-                        config.addAllowedMethod("POST");
-                        config.addAllowedMethod("PUT");
-                        config.addAllowedMethod("DELETE");
-                        config.addAllowedHeader("*");
-                        config.setAllowCredentials(true);
-                        return config;
-                    });
-                })
 
 
                 //== URL별 권한 관리 옵션 ==//
