@@ -41,7 +41,6 @@ public class SecurityConfig {
                         config.addAllowedMethod("PUT");
                         config.addAllowedMethod("DELETE");
                         config.addAllowedHeader("*");
-                        config.setAllowCredentials(true);
                         return config;
                     });
                 })
