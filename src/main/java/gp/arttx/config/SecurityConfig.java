@@ -34,10 +34,6 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
-        config.addAllowedOrigin("http://127.0.0.1:3000");
-        config.addAllowedOrigin("https://artpings.com");
         config.addAllowedOrigin("https://www.artpings.com");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
@@ -49,10 +45,6 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("https://sehwan24.github.io/arttx_fe");
-        config.addAllowedOrigin("http://127.0.0.1:3000");
-        config.addAllowedOrigin("https://artpings.com");
         config.addAllowedOrigin("https://www.artpings.com");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
