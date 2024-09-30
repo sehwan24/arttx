@@ -12,13 +12,32 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("https://api.artpings.com")  // 특정 도메인 허용
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 허용할 HTTP 메소드
+                        .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "X-Requested-With")  // 허용할 헤더 지정
+                        .exposedHeaders("Authorization", "Content-Disposition")  // 클라이언트가 접근할 수 있는 응답 헤더
+                        .allowCredentials(true)  // 쿠키나 인증 관련 정보 허용
+                        .maxAge(TimeUnit.DAYS.toSeconds(1));  // CORS 요청에 대한 브라우저 캐싱 시간 설정 (1일)
+            }
+        };
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
