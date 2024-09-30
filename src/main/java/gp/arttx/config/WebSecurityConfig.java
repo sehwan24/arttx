@@ -19,33 +19,31 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://127.0.0.1:3000",
-                "http://localhost:3000",
                 "https://www.artpings.com",
-                "https://artpings.com",
                 "https://api.artpings.com"
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 필요한 헤더만 허용
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Access-Control-Allow-Origin")); // 필요한 헤더 노출
-        configuration.setAllowCredentials(true); // 자격 증명 허용 (쿠키 등)
-        configuration.setMaxAge(3600L); // CORS 캐싱 시간
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));  // 허용할 헤더 설정
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));  // 노출할 헤더 설정
+        configuration.setAllowCredentials(true);  // 자격 증명 허용
+        configuration.setMaxAge(3600L);  // CORS 캐싱 시간 설정
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);  // 모든 경로에 대해 CORS 적용
         return source;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // CORS 설정 적용
+                .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 비활성화
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()); // 모든 요청 허용
+                        .anyRequest().permitAll());  // 모든 요청 허용
 
         return http.build();
     }
