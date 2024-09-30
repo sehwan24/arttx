@@ -27,9 +27,7 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000","http://localhost:3000", "https://www.artpings.com", "https://artpings.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드
-        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
-        configuration.setExposedHeaders(List.of("Authorization, Set-Cookie")); // CORS로 인해 프론트단에서 인식하지 못하는 Authrization 헤더를 노출
-        configuration.setAllowCredentials(true); // 쿠키 허용
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 모든 헤더 허용
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 적용
         return source;
