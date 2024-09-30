@@ -30,16 +30,14 @@ public class WebSecurityConfig {
             configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000","http://localhost:3000", "https://www.artpings.com", "https://artpings.com"));
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드
             configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-            configuration.setAllowCredentials(true);
             return configuration;
         };
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
-                .csrf(csrf -> csrf.disable());
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())); // CORS 설정 적용
+
 
         return http.build();
     }
