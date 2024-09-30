@@ -41,7 +41,9 @@ public class WebSecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
                 .csrf(AbstractHttpConfigurer::disable) // 필요에 따라 CSRF 비활성화
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 사용하지 않음
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용하지 않음
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll());
 
         return http.build();
     }
