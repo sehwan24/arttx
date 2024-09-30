@@ -23,15 +23,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    @Bean
+
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000","http://localhost:3000", "https://www.artpings.com", "https://artpings.com"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드
-        configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 적용
-        return source;
+        return request -> {
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000","http://localhost:3000", "https://www.artpings.com", "https://artpings.com"));
+            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드
+            configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
+            return configuration;
+        };
     }
 
     @Bean
