@@ -12,13 +12,6 @@ public class TestController {
 
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-    @CrossOrigin(origins = "https://www.artpings.com")
-    @RequestMapping(value = "/1", method = RequestMethod.OPTIONS)
-    public void options() {
-        // Preflight 요청 처리
-    }
-
-    @CrossOrigin(origins = "https://www.artpings.com")
     @GetMapping("/1")
     public String testReturn() {
         logger.debug("DEBUG: /api/test endpoint hit");
