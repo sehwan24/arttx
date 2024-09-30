@@ -31,14 +31,17 @@ public class WebSecurityConfig {
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드
             configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
             configuration.setExposedHeaders(Arrays.asList("Authorization", "RefreshToken", "Access-Control-Allow-Origin"));
+            configuration.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
             return configuration;
         };
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource())); // CORS 설정 적용
-
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
+                .csrf(AbstractHttpConfigurer::disable) // 필요에 따라 CSRF 비활성화
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 사용하지 않음
 
         return http.build();
     }
