@@ -37,6 +37,7 @@ public class SecurityConfig {
         config.addAllowedOrigin("https://www.artpings.com");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
+        config.addExposedHeader("Authorization");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
@@ -48,6 +49,7 @@ public class SecurityConfig {
         config.addAllowedOrigin("https://www.artpings.com");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
+        config.addExposedHeader("Authorization");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
