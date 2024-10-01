@@ -26,5 +26,10 @@ public class TestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/1", method = RequestMethod.OPTIONS)
+    public void handleOptions() {
+        logger.info("OPTIONS request received");
+    }
+
 
 }
