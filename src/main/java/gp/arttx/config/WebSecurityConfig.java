@@ -29,13 +29,9 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "https://www.artpings.com",  // 다른 출처도 허용
-                "https://api.artpings.com",
-                "https://artpings.com"
-        ));
+        configuration.addAllowedOriginPattern("*");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드 확장
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);  // 자격 증명 허용 (쿠키, 인증)
         configuration.setMaxAge(3600L);  // CORS 캐싱 시간 설정 (1시간)
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
