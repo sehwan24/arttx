@@ -18,7 +18,7 @@ public class TestController {
     public String testReturn() {
         logger.debug("DEBUG: /api/test endpoint hit");
         logger.info("INFO: /api/test endpoint hit");
-        return "TestSuccess";
+        return "종합설계 파이팅!";
     }
 
     @GetMapping("/health")
