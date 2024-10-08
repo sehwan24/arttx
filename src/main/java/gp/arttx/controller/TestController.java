@@ -21,15 +21,13 @@ public class TestController {
         return "종합설계 파이팅!";
     }
 
+    //상태검사
     @GetMapping("/health")
     public ResponseEntity<Void> healthCheck() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/1", method = RequestMethod.OPTIONS)
-    public void handleOptions() {
-        logger.info("OPTIONS request received");
-    }
+
 
 
 }

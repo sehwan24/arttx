@@ -33,7 +33,6 @@ public class WebSecurityConfig {
                 "https://www.artpings.com",  // 다른 출처도 허용
                 "https://api.artpings.com",
                 "https://artpings.com",
-                "https://api.artpings.com/api/test/1",
                 "http://localhost:3000"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드 확장
