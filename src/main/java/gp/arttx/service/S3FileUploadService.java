@@ -3,7 +3,6 @@ package gp.arttx.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,12 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
-public class S3FileUpload {
+public class S3FileUploadService {
 
 
     @Autowired
@@ -26,13 +23,13 @@ public class S3FileUpload {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public List<String> uploadFiles(List<MultipartFile> multipartFiles) throws IOException {
+    /*public List<String> uploadFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<String> fileUrls = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             fileUrls.add(uploadFile(file));
         }
         return fileUrls;
-    }
+    }*/
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         File file = convertMultiPartFileToFile(multipartFile);
