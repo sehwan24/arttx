@@ -1,6 +1,7 @@
 package gp.arttx.service;
 
 import gp.arttx.dto.HouseImageResponseDto;
+import gp.arttx.dto.TreeImageResponseDto;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,5 +22,10 @@ public class ImageService {
     public HouseImageResponseDto uploadHouseImage() {
 
         return new HouseImageResponseDto();  //todo
+    }
+
+    public TreeImageResponseDto uploadTreeImage() {
+
+        return new TreeImageResponseDto(); //todo
     }
 }

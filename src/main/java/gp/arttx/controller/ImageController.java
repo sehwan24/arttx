@@ -1,6 +1,7 @@
 package gp.arttx.controller;
 
 import gp.arttx.dto.HouseImageResponseDto;
+import gp.arttx.dto.TreeImageResponseDto;
 import gp.arttx.response.ApiResponse;
 import gp.arttx.response.SuccessCode;
 import gp.arttx.service.ImageService;
@@ -35,6 +36,16 @@ public class ImageController {
         SuccessCode successCode = SuccessCode.OK; //todo : successcode 만들기
         return ResponseEntity.status(successCode.getHttpStatus())
                 .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));
+    }
+
+
+    @PostMapping(value = "/tree", consumes = "multipart/form-data")
+    public ResponseEntity<ApiResponse> treeUpload(@RequestPart(value = "image", required = true) MultipartFile treeImage) throws IOException {
+
+        TreeImageResponseDto treeImageResponseDto = imageService.uploadTreeImage();
+        SuccessCode successCode = SuccessCode.OK;
+        return ResponseEntity.status(successCode.getHttpStatus())
+                .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), treeImageResponseDto));
     }
 
 

@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class HouseImageResponseDto {
+@AllArgsConstructor
+public class TreeImageResponseDto {
 
-    String houseImageUrl;
+    String treeImageUrl;
 }
