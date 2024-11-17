@@ -32,7 +32,10 @@ public class ImageController {
 
     @PostMapping(value = "/house", consumes = "multipart/form-data")
     public ResponseEntity<ApiResponse> houseUpload(@RequestPart(value = "image", required = true) MultipartFile houseImage) throws IOException {
-
+        String houseImageUrl = null;
+        if (!houseImage.isEmpty()) {
+            houseImageUrl = s3FileUploadService.uploadFile(houseImage);
+        }
         HouseImageResponseDto houseImageResponseDto = imageService.uploadHouseImage();
         SuccessCode successCode = SuccessCode.OK; //todo : successcode 만들기
         return ResponseEntity.status(successCode.getHttpStatus())
