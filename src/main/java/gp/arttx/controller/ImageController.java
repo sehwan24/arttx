@@ -36,7 +36,7 @@ public class ImageController {
         if (!houseImage.isEmpty()) {
             houseImageUrl = s3FileUploadService.uploadFile(houseImage);
         }
-        HouseImageResponseDto houseImageResponseDto = imageService.uploadHouseImage();
+        HouseImageResponseDto houseImageResponseDto = imageService.uploadHouseImage(houseImageUrl);
         SuccessCode successCode = SuccessCode.OK; //todo : successcode 만들기
         return ResponseEntity.status(successCode.getHttpStatus())
                 .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));

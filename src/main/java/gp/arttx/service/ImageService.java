@@ -19,9 +19,8 @@ public class ImageService {
     @Autowired
     private WebClient webClient;
 
-    public HouseImageResponseDto uploadHouseImage() {
-
-        return new HouseImageResponseDto();  //todo
+    public HouseImageResponseDto uploadHouseImage(String houseImageUrl) {
+        return new HouseImageResponseDto(houseImageUrl);
     }
 
     public TreeImageResponseDto uploadTreeImage() {
