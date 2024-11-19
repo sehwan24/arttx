@@ -38,7 +38,6 @@ public class ImageService {
     }
 
     public TreeImageResponseDto uploadTreeImage() {
-
         return new TreeImageResponseDto(); //todo
     }
 }
