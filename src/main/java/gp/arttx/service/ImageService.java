@@ -28,7 +28,7 @@ public class ImageService {
 
     public Mono<HouseImageResponseDto> getObjectDetection(String houseFileName) {
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("houseImageUrl", houseFileName);
+        requestBody.put("houseFileName", houseFileName);
         return webClient.post()
                 .uri("/house")
                 .contentType(MediaType.APPLICATION_JSON)
