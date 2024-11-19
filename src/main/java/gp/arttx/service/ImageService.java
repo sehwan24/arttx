@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -34,7 +35,11 @@ public class ImageService {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
-                .bodyToMono(HouseImageResponseDto.class);
+                .bodyToMono(HouseImageResponseDto.class)
+                .doOnError(WebClientResponseException.class, e -> {
+                    System.err.println("HTTP Status: " + e.getStatusCode());
+                    System.err.println("Response Body: " + e.getResponseBodyAsString());
+                });
     }
 
     public TreeImageResponseDto uploadTreeImage() {
