@@ -35,10 +35,10 @@ public class S3FileUploadService {
         File file = convertMultiPartFileToFile(multipartFile);
         String fileName = generateFileName(multipartFile);
         System.out.println("bucketName = " + bucketName);
-        String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, amazonS3Client.getRegionName(), fileName);
+        //String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, amazonS3Client.getRegionName(), fileName);
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         //file.delete(); // 임시 파일 삭제
-        return fileUrl;
+        return fileName;
     }
 
     private File convertMultiPartFileToFile(MultipartFile multipartFile) throws IOException {

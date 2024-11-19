@@ -6,9 +6,16 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +26,15 @@ public class ImageService {
     @Autowired
     private WebClient webClient;
 
-    public HouseImageResponseDto uploadHouseImage(String houseImageUrl) {
-        return new HouseImageResponseDto(houseImageUrl);
+    public Mono<HouseImageResponseDto> getObjectDetection(String houseFileName) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("houseImageUrl", houseFileName);
+        return webClient.post()
+                .uri("/house")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .bodyToMono(HouseImageResponseDto.class);
     }
 
     public TreeImageResponseDto uploadTreeImage() {

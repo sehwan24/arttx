@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HouseImageResponseDto {
 
-    String houseImageUrl;
+    String houseScore;
 }

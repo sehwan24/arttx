@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -32,11 +33,11 @@ public class ImageController {
 
     @PostMapping(value = "/house", consumes = "multipart/form-data")
     public ResponseEntity<ApiResponse> houseUpload(@RequestPart(value = "image", required = true) MultipartFile houseImage) throws IOException {
-        String houseImageUrl = null;
+        String houseFileName = null;
         if (!houseImage.isEmpty()) {
-            houseImageUrl = s3FileUploadService.uploadFile(houseImage);
+            houseFileName = s3FileUploadService.uploadFile(houseImage);
         }
-        HouseImageResponseDto houseImageResponseDto = imageService.uploadHouseImage(houseImageUrl);
+        Mono<HouseImageResponseDto> houseImageResponseDto = imageService.getObjectDetection(houseFileName);
         SuccessCode successCode = SuccessCode.OK; //todo : successcode 만들기
         return ResponseEntity.status(successCode.getHttpStatus())
                 .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));
