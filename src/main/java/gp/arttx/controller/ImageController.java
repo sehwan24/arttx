@@ -32,16 +32,21 @@ public class ImageController {
     private final S3FileUploadService s3FileUploadService;
 
     @PostMapping(value = "/house", consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse> houseUpload(@RequestPart(value = "image", required = true) MultipartFile houseImage) throws IOException {
+    public Mono<ResponseEntity<ApiResponse>> houseUpload(@RequestPart(value = "image", required = true) MultipartFile houseImage) throws IOException {
         String houseFileName = null;
         if (!houseImage.isEmpty()) {
             houseFileName = s3FileUploadService.uploadFile(houseImage);
         }
-        Mono<HouseImageResponseDto> houseImageResponseDto = imageService.getObjectDetection(houseFileName);
-        SuccessCode successCode = SuccessCode.OK; //todo : successcode 만들기
-        return ResponseEntity.status(successCode.getHttpStatus())
-                .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));
+
+        // `getObjectDetection`의 결과를 비동기적으로 처리
+        return imageService.getObjectDetection(houseFileName)
+                .map(houseImageResponseDto -> {
+                    SuccessCode successCode = SuccessCode.OK; // todo: SuccessCode 생성
+                    return ResponseEntity.status(successCode.getHttpStatus())
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));
+                });
     }
+
 
 
     @PostMapping(value = "/tree", consumes = "multipart/form-data")
