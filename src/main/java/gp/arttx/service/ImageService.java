@@ -28,11 +28,8 @@ public class ImageService {
     private WebClient webClient;
 
     public Mono<HouseImageResponseDto> getObjectDetection(String houseFileName) {
-        System.out.println(1);
         Map<String, Object> requestBody = new HashMap<>();
-        System.out.println(2);
         requestBody.put("houseFileName", houseFileName);
-        System.out.println("requestBody = " + requestBody);
         return webClient.post()
                 .uri("/house")
                 .contentType(MediaType.APPLICATION_JSON)
