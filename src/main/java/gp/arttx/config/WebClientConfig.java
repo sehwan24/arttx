@@ -15,6 +15,11 @@ public class WebClientConfig {
     public WebClient webClient() {
         return WebClient.builder()
                 .baseUrl(address)
+                .filter((request, next) -> {
+                    System.out.println("Request: " + request.method() + " " + request.url());
+                    return next.exchange(request)
+                            .doOnNext(response -> System.out.println("Response status: " + response.statusCode()));
+                })
                 .build();
     }
 
