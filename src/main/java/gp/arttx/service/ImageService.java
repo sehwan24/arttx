@@ -1,20 +1,20 @@
 package gp.arttx.service;
 
 import gp.arttx.dto.HouseImageResponseDto;
+import gp.arttx.dto.PersonImageResponseDto;
 import gp.arttx.dto.TreeImageResponseDto;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class ImageService {
     @Autowired
     private WebClient webClient;
 
-    public Mono<HouseImageResponseDto> getObjectDetection(String houseFileName) {
+    public Mono<HouseImageResponseDto> getHouseObjectDetection(String houseFileName) {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("houseFileName", houseFileName);
 
@@ -57,8 +57,28 @@ public class ImageService {
                 });
     }
 
+    public Mono<TreeImageResponseDto> getTreeObjectDetection(String treeFileName) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("treeFileName", treeFileName);
 
-    public TreeImageResponseDto uploadTreeImage() {
-        return new TreeImageResponseDto(); //todo
+        return webClient.post()
+                .uri("/tree")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .bodyToMono(TreeImageResponseDto.class);
     }
+
+    public Mono<PersonImageResponseDto> getPersonObjectDetection(String personFileName) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("personFileName", personFileName);
+
+        return webClient.post()
+                .uri("/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .bodyToMono(PersonImageResponseDto.class);
+    }
+
 }

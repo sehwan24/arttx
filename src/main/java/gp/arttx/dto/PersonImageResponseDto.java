@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TreeImageResponseDto {
+public class PersonImageResponseDto {
 
-    String treeScore;
+    String personScore;
 }

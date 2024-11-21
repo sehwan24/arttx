@@ -1,6 +1,5 @@
 package gp.arttx.controller;
 
-import gp.arttx.dto.HouseImageResponseDto;
 import gp.arttx.dto.TreeImageResponseDto;
 import gp.arttx.response.ApiResponse;
 import gp.arttx.response.SuccessCode;
@@ -39,7 +38,7 @@ public class ImageController {
         }
 
         // `getObjectDetection`의 결과를 비동기적으로 처리
-        return imageService.getObjectDetection(houseFileName)
+        return imageService.getHouseObjectDetection(houseFileName)
                 .map(houseImageResponseDto -> {
                     SuccessCode successCode = SuccessCode.OK; // todo: SuccessCode 생성
                     return ResponseEntity.status(successCode.getHttpStatus())
@@ -50,13 +49,34 @@ public class ImageController {
 
 
     @PostMapping(value = "/tree", consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse> treeUpload(@RequestPart(value = "image", required = true) MultipartFile treeImage) throws IOException {
+    public Mono<ResponseEntity<ApiResponse>> treeUpload(@RequestPart(value = "image", required = true) MultipartFile treeImage) throws IOException {
+        String treeFileName = null;
+        if (!treeImage.isEmpty()) {
+            treeFileName = s3FileUploadService.uploadFile(treeImage);
+        }
 
-        TreeImageResponseDto treeImageResponseDto = imageService.uploadTreeImage();
-        SuccessCode successCode = SuccessCode.OK;
-        return ResponseEntity.status(successCode.getHttpStatus())
-                .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), treeImageResponseDto));
+        return imageService.getTreeObjectDetection(treeFileName)
+                .map(treeImageResponseDto -> {
+                    SuccessCode successCode = SuccessCode.OK;
+                    return ResponseEntity.status(successCode.getHttpStatus())
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), treeImageResponseDto));
+                });
     }
 
+
+    @PostMapping(value = "/person", consumes = "multipart/form-data")
+    public Mono<ResponseEntity<ApiResponse>> personUpload(@RequestPart(value = "image", required = true) MultipartFile personImage) throws IOException {
+        String personFileName = null;
+        if (!personImage.isEmpty()) {
+            personFileName = s3FileUploadService.uploadFile(personImage);
+        }
+
+        return imageService.getPersonObjectDetection(personFileName)
+                .map(personImageResponseDto -> {
+                    SuccessCode successCode = SuccessCode.OK;
+                    return ResponseEntity.status(successCode.getHttpStatus())
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), personImageResponseDto));
+                });
+    }
 
 }
