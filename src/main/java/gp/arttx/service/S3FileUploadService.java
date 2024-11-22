@@ -36,9 +36,23 @@ public class S3FileUploadService {
         // String fileName = generateFileName(multipartFile);
         // System.out.println("bucketName = " + bucketName);
         //String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, amazonS3Client.getRegionName(), fileName);
-        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
+        try {
+            if (amazonS3Client.doesObjectExist(bucketName, fileName)) {
+                amazonS3Client.deleteObject(bucketName, fileName);
+                System.out.println("기존 파일이 삭제되었습니다: " + fileName);
+            }
+            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
+            System.out.println("새로운 파일이 업로드되었습니다: " + fileName);
+            return fileName;
+        } finally {
+            if (file.exists()) {
+                file.delete();
+                System.out.println("임시 파일이 삭제되었습니다.");
+            }
+        }
+        // amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         //file.delete(); // 임시 파일 삭제
-        return fileName;
+        // return fileName;
     }
 
     private File convertMultiPartFileToFile(MultipartFile multipartFile) throws IOException {
