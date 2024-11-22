@@ -31,10 +31,10 @@ public class S3FileUploadService {
         return fileUrls;
     }*/
 
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    public String uploadFile(MultipartFile multipartFile, String fileName) throws IOException {
         File file = convertMultiPartFileToFile(multipartFile);
-        String fileName = generateFileName(multipartFile);
-        System.out.println("bucketName = " + bucketName);
+        // String fileName = generateFileName(multipartFile);
+        // System.out.println("bucketName = " + bucketName);
         //String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, amazonS3Client.getRegionName(), fileName);
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         //file.delete(); // 임시 파일 삭제

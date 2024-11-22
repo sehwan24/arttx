@@ -34,7 +34,7 @@ public class ImageController {
     public Mono<ResponseEntity<ApiResponse>> houseUpload(@RequestPart(value = "image", required = true) MultipartFile houseImage) throws IOException {
         String houseFileName = null;
         if (!houseImage.isEmpty()) {
-            houseFileName = s3FileUploadService.uploadFile(houseImage);
+            houseFileName = s3FileUploadService.uploadFile(houseImage, "house.jpg");
         }
 
         // `getObjectDetection`의 결과를 비동기적으로 처리
@@ -52,7 +52,7 @@ public class ImageController {
     public Mono<ResponseEntity<ApiResponse>> treeUpload(@RequestPart(value = "image", required = true) MultipartFile treeImage) throws IOException {
         String treeFileName = null;
         if (!treeImage.isEmpty()) {
-            treeFileName = s3FileUploadService.uploadFile(treeImage);
+            treeFileName = s3FileUploadService.uploadFile(treeImage, "tree.jpg");
         }
 
         return imageService.getTreeObjectDetection(treeFileName)
@@ -68,7 +68,7 @@ public class ImageController {
     public Mono<ResponseEntity<ApiResponse>> personUpload(@RequestPart(value = "image", required = true) MultipartFile personImage) throws IOException {
         String personFileName = null;
         if (!personImage.isEmpty()) {
-            personFileName = s3FileUploadService.uploadFile(personImage);
+            personFileName = s3FileUploadService.uploadFile(personImage, "person.jpg");
         }
 
         return imageService.getPersonObjectDetection(personFileName)
