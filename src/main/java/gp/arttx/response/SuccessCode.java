@@ -20,12 +20,8 @@ public enum SuccessCode {
     SUCCESS_DELETE_USER(HttpStatus.OK, "U00600", "회원 탈퇴에 성공했습니다."),
 
 
-
-    /* TOKEN */
-    SUCCESS_REISSUE_TOKEN(HttpStatus.CREATED, "T00000", "토큰 재발급에 성공했습니다."),
-
     /* GLOBAL */
-    OK(HttpStatus.OK, "", "성공");
+    OK(HttpStatus.OK, "200", "성공");
 
     private HttpStatus httpStatus;
     private String code;

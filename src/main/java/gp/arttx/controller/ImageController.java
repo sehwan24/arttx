@@ -23,7 +23,6 @@ import java.io.IOException;
 @RequestMapping("/api/image")
 public class ImageController {
 
-    //todo : 이미지 하나씩 보낼지 or 한번에 보낼  선택 + S3 보낸 걸 파이썬이 S3 직접 접근 / 제출하기 버튼이 트리거인지..
 
 
 
