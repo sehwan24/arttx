@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class HouseImageResponseDto {
 
-    String houseScore;
+    private List<String> interpreter;
+    private Map<String, Integer> houseScore;
+
 }
