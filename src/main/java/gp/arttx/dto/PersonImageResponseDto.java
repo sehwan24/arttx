@@ -13,5 +13,5 @@ import java.util.Map;
 public class PersonImageResponseDto {
 
     private List<String> interpreter;
-    private Map<String, Integer> personScore;
+    private Map<String, Integer> scores;
 }

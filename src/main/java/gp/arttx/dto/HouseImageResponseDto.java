@@ -13,6 +13,6 @@ import java.util.Map;
 public class HouseImageResponseDto {
 
     private List<String> interpreter;
-    private Map<String, Integer> houseScore;
+    private Map<String, Integer> scores;
 
 }

@@ -13,5 +13,5 @@ import java.util.Map;
 public class TreeImageResponseDto {
 
     private List<String> interpreter;
-    private Map<String, Integer> treeScore;
+    private Map<String, Integer> scores;
 }
