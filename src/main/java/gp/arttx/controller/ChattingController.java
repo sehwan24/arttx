@@ -23,7 +23,7 @@ public class ChattingController {
 
 
     @PostMapping(value = "/new")
-    public Mono<ResponseEntity<ApiResponse>> sendChatting(ChattingMessageDto chattingMessageDto) {
+    public Mono<ResponseEntity<ApiResponse>> sendChatting(@RequestBody ChattingMessageDto chattingMessageDto) {
 
         System.out.println("chattingMessageDto = " + chattingMessageDto);
         System.out.println("chattingMessageDto.getMessage() = " + chattingMessageDto.getMessage());
