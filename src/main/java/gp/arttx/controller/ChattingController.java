@@ -7,10 +7,7 @@ import gp.arttx.service.ChattingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
@@ -26,14 +23,26 @@ public class ChattingController {
 
 
     @PostMapping(value = "/new")
-    public Mono<ResponseEntity<ApiResponse>> sendChatting(ChattingMessageDto chattingMessageDto) throws IOException {
+    public Mono<ResponseEntity<ApiResponse>> sendChatting(ChattingMessageDto chattingMessageDto) {
 
         // `getObjectDetection`의 결과를 비동기적으로 처리
         return chattingService.sendChatting(chattingMessageDto)
-                .map(houseImageResponseDto -> {
+                .map(chattingResponseMessageDto -> {
                     SuccessCode successCode = SuccessCode.OK; // todo: SuccessCode 생성
                     return ResponseEntity.status(successCode.getHttpStatus())
-                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), houseImageResponseDto));
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), chattingResponseMessageDto));
+                });
+    }
+
+    @GetMapping(value = "/first")
+    public Mono<ResponseEntity<ApiResponse>> getFirstChatting() {
+
+        // `getObjectDetection`의 결과를 비동기적으로 처리
+        return chattingService.getFirstChatting()
+                .map(firstChattingResponseDto -> {
+                    SuccessCode successCode = SuccessCode.OK; // todo: SuccessCode 생성
+                    return ResponseEntity.status(successCode.getHttpStatus())
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), firstChattingResponseDto));
                 });
     }
 }
