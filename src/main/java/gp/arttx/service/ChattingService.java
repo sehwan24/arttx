@@ -30,6 +30,7 @@ public class ChattingService {
     public Mono<ChattingMessageDto> sendChatting(ChattingMessageDto chattingMessageDto) {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("message", chattingMessageDto.getMessage());
+        System.out.println("chattingMessageDto = " + chattingMessageDto.getMessage());
 
         return webClient.post()
                 .uri("/chatting")
