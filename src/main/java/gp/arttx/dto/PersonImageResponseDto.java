@@ -14,4 +14,5 @@ public class PersonImageResponseDto {
 
     private List<String> interpreter;
     private Map<String, Integer> scores;
+    private String firstChatting;
 }
