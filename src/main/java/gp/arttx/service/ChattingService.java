@@ -46,6 +46,7 @@ public class ChattingService {
                 .doOnNext(response -> {
                     // 성공적으로 응답을 받았을 때 로그
                     System.out.println("Response received: " + response);
+                    System.out.println("response.getMessage() = " + response.getMessage());
                 })
                 .doOnError(WebClientResponseException.class, e -> {
                     // 에러 발생 시 로그
