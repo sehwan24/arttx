@@ -1,6 +1,7 @@
 package gp.arttx.controller;
 
 import gp.arttx.dto.ChattingMessageDto;
+import gp.arttx.dto.ExitMessageResponseDto;
 import gp.arttx.response.ApiResponse;
 import gp.arttx.response.SuccessCode;
 import gp.arttx.service.ChattingService;
@@ -46,6 +47,16 @@ public class ChattingController {
                     SuccessCode successCode = SuccessCode.OK; // todo: SuccessCode 생성
                     return ResponseEntity.status(successCode.getHttpStatus())
                             .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), firstChattingResponseDto));
+                });
+    }
+
+    @PostMapping(value = "/exit")
+    public Mono<ResponseEntity<ApiResponse>> exitChatting(@RequestBody ChattingMessageDto chattingMessageDto) {
+        return chattingService.exitChatting(chattingMessageDto)
+                .map(exitMessageResponseDto -> {
+                    SuccessCode successCode = SuccessCode.OK;
+                    return ResponseEntity.status(successCode.getHttpStatus())
+                            .body(ApiResponse.of(successCode.getCode(), successCode.getMessage(), exitMessageResponseDto));
                 });
     }
 }

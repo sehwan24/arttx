@@ -1,6 +1,7 @@
 package gp.arttx.service;
 
 import gp.arttx.dto.ChattingMessageDto;
+import gp.arttx.dto.ExitMessageResponseDto;
 import gp.arttx.dto.FirstChattingDto;
 import gp.arttx.dto.HouseImageResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -83,5 +84,37 @@ public class ChattingService {
                     System.err.println("An error occurred: " + e.getMessage());
                 });
 
+    }
+
+    public Mono<ExitMessageResponseDto> exitChatting(ChattingMessageDto chattingMessageDto) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("message", chattingMessageDto.getMessage());
+        System.out.println("chattingMessageDto = " + chattingMessageDto.getMessage());
+
+        return webClient.post()
+                .uri("/chatting")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .bodyToMono(ExitMessageResponseDto.class)
+                .doOnSubscribe(subscription -> {
+                    // 요청 정보 로그
+                    System.out.println("Sending POST request to /chatting");
+                    System.out.println("Request Body: " + requestBody);
+                })
+                .doOnNext(response -> {
+                    // 성공적으로 응답을 받았을 때 로그
+                    System.out.println("Response received: " + response);
+                    //System.out.println("response.getMessage() = " + response.getMessage());
+                })
+                .doOnError(WebClientResponseException.class, e -> {
+                    // 에러 발생 시 로그
+                    System.err.println("HTTP Status: " + e.getStatusCode());
+                    System.err.println("Response Body: " + e.getResponseBodyAsString());
+                })
+                .doOnError(e -> {
+                    // 기타 예외
+                    System.err.println("An error occurred: " + e.getMessage());
+                });
     }
 }
