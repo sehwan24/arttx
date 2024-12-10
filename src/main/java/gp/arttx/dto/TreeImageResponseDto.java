@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,5 +14,5 @@ import java.util.Map;
 public class TreeImageResponseDto {
 
     private List<String> interpreter;
-    private Map<String, Integer> scores;
+    private Map<String, Integer> scores = new LinkedHashMap<>();
 }
